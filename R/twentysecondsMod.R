@@ -51,7 +51,7 @@ twentyseconds_cv_entries <- new_entry_formats(
         "\\end{minipage}"
       ), collapse = "\n")
     })
-    where <- ifelse(where == "", "\\empty", paste0(where, "\\par"))
+    where <- ifelse(where == "", "\\empty", paste0(where, ""))
 
     paste(c(
       "\\nopagebreak\\begin{twenty}",
