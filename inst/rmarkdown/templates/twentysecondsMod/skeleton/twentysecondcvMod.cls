@@ -58,7 +58,13 @@
 \newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\scshape\color{graytext} #1}}
 \newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\slshape\color{graytext} #1}}
 \newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\slshape\color{awesome} #1}}
-\newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\upshape\color{text} #1}}
+\newcommand*{\descriptionstyle}[1]{{\fontsize{7pt}{1em}\upshape\color{text} #1}}
+
+% Needed to use \ifxetex-\else-\fi statement
+\RequirePackage{ifxetex}
+% Needed to use \if-\then-\else statement
+\RequirePackage{xifthen}
+\newcommand*{\ifempty}[3]{\ifthenelse{\isempty{#1}}{#2}{#3}}
 
 
 %----------------------------------------------------------------------------------------
@@ -89,7 +95,8 @@
 \pgfmathsetlength{\imagewidth}{5cm}
 \pgfmathsetlength{\imagescale}{\imagewidth/600}
 
-\newlength{\TotalSectionLength} % Define a new length to hold the remaining line width after the section title is printed
+\newlength{\TotalSectionLength} % Define a new length to hold the remaining line width after the section title is 
+%printed
 \newlength{\SectionTitleLength} % Define a new length to hold the width of the section title
 \newcommand{\profilesection}[1]{%
 	\setlength\TotalSectionLength{\linewidth}% Set the total line width
@@ -115,17 +122,18 @@
 \newcommand{\cvjobtitle}[1]{\renewcommand{\cvjobtitle}{#1}}
 
 % Command for printing the contact information icons
-\newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
+\newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt, 
+fill=mainblue,mainblue,text=white] (char) {#1};}}
 
 % Command for printing skill progress bars
 \newcommand\skills[1]{
 	\renewcommand{\skills}{
 		\begin{tikzpicture}
-			\foreach [count=\i] \x/\y in {#1}{
-				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
-				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
-				\node [above right] at (0,\i+0.4) {\x};
-			}
+		\foreach [count=\i] \x/\y in {#1}{
+			\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
+			\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
+			\node [above right] at (0,\i+0.4) {\x};
+		}
 		\end{tikzpicture}
 	}
 }
@@ -146,38 +154,40 @@
 %----------------------------------------------------------------------------------------
 
 \newcommand{\makeprofile}{
-\thispagestyle{empty}
+	\thispagestyle{empty}
 	\begin{tikzpicture}[remember picture,overlay]
-   		\node [rectangle, fill=sidecolor, anchor=north, minimum width=9cm, minimum height=\paperheight+1cm] (box) at (-5cm,0.5cm){};
+	\node [rectangle, fill=sidecolor, anchor=north, minimum width=9cm, minimum height=\paperheight+1cm] (box) at 
+	(-5cm,0.5cm){};
 	\end{tikzpicture}
-
+	
 	%------------------------------------------------
-
+	
 	\begin{textblock}{6}(0.5, 0.2)
-
+		
 		%------------------------------------------------
-
+		
 		\ifthenelse{\equal{\profilepic}{}}{\vspace*{0.5cm}}{
 			\begin{center}
 				\begin{tikzpicture}[x=\imagescale,y=-\imagescale]
-					\clip (600/2, 567/2) circle (567/2);
-					\node[anchor=north west, inner sep=0pt, outer sep=0pt] at (0,0) {\includegraphics[width=\imagewidth]{\profilepic}};
+				\clip (600/2, 567/2) circle (567/2);
+				\node[anchor=north west, inner sep=0pt, outer sep=0pt] at (0,0) 
+				{\includegraphics[width=\imagewidth]{\profilepic}};
 				\end{tikzpicture}
 			\end{center}
 		}
-
+		
 		%------------------------------------------------
-
+		
 		{\raggedright\huge\textcolor{mainblue}{\textbf{\cvname}}}
-
+		
 		%------------------------------------------------
-
+		
 		{\Large\color{black!80}\cvjobtitle}
-
+		
 		\ifthenelse{\equal{\cvdate}{}}{}{\cvdate}
 		\vspace*{0.4cm}
 		%------------------------------------------------
-
+		
 		\renewcommand{\arraystretch}{1.6}
 		\begin{tabular}{p{0.5cm} @{\hskip 0.5cm}p{5cm}}
 			\ifthenelse{\equal{\cvaddress}{}}{}{\Large\faicon{map-marker} & \cvaddress\\}
@@ -188,27 +198,27 @@
 			\ifthenelse{\equal{\cvgithub}{}}{}{\Large\faicon{github} & \cvgithub\\}
 			\ifthenelse{\equal{\cvlinkedin}{}}{}{\Large\faicon{linkedin} & \cvlinkedin}
 		\end{tabular}
-
+		
 		%------------------------------------------------
-
+		
 		\ifthenelse{\equal{\aboutme}{}}{}{
 			\profilesection{About me}
 			\begin{flushleft}
 				\aboutme
 			\end{flushleft}
 		}
-
+		
 		%------------------------------------------------
-
-%		\profilesection{Skills}
-
-%		\skills
-%		\skillstext
-%		\scriptsize
-%		(*)[The skill scale is from 0 (Fundamental Awareness) to 6 (Expert).]
-
+		
+		%		\profilesection{Skills}
+		
+		%		\skills
+		%		\skillstext
+		%		\scriptsize
+		%		(*)[The skill scale is from 0 (Fundamental Awareness) to 6 (Expert).]
+		
 		%------------------------------------------------
-
+		
 	\end{textblock}
 	%\AddThispageHook{\newpage\restoregeometry}
 }
@@ -219,7 +229,8 @@
 
 % Command to create the rounded boxes around the first three letters of section titles
 \newcommand*\round[2]{%
-	\tikz[baseline=(char.base)]\node[anchor=north west, draw,rectangle, rounded corners, inner sep=1.6pt, minimum size=5.5mm, text height=3.6mm, fill=#2,#2,text=white](char){#1};%
+	\tikz[baseline=(char.base)]\node[anchor=north west, draw,rectangle, rounded corners, inner sep=1.6pt, minimum 
+	size=5.5mm, text height=3.6mm, fill=#2,#2,text=white](char){#1};%
 }
 
 \newcounter{colorCounter}
@@ -235,7 +246,7 @@
 			mainblue\or%
 			maingray\or%
 			mainblue\or%
- 			maingray\or%
+			maingray\or%
 			mainblue\else%
 			maingray\fi%
 		}%
@@ -266,7 +277,7 @@
 % New environment for the long list
 \newenvironment{twenty}{%
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
-}{%
+	}{%
 	\end{tabular*}
 }
 
@@ -275,11 +286,21 @@
 \newcommand{\twentyitem}[5]{%
 	\setlength\tabcolsep{0pt}%
 	\setlength{\extrarowheight}{0pt}%
-	\begin{tabularx}{\textwidth}{Xr}
-		\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
-		\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} &\entrydatestyle{#1} \\
-		\multicolumn{2}{l}{\descriptionstyle{#5}}\\	
-	\end{tabularx}\\
+	\ifempty{#5}{
+		\begin{tabularx}{\textwidth}{Xr}
+			\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
+			\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} &\entrydatestyle{#1} \\
+		\end{tabularx}\\
+		\mbox{}\\
+	}{
+		\begin{tabularx}{\textwidth}{Xr}
+			\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
+			\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} &\entrydatestyle{#1} \\
+			\multicolumn{2}{l}{\descriptionstyle{#5}}
+		\end{tabularx}\\
+		\mbox{}\\
+	}
+	
 }
 
 
@@ -292,7 +313,7 @@
 % New environment for the small list
 \newenvironment{twentyshort}{%
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
-}{%
+	}{%
 	\end{tabular*}
 }
 
