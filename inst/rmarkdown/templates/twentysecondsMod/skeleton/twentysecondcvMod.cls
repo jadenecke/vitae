@@ -23,6 +23,7 @@
 \RequirePackage{pgffor}
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
+\RequirePackage{tabularx}
 \RequirePackage[left=7.6cm,top=0.1cm,right=1cm,bottom=0.1cm,nohead,nofoot]{geometry}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -38,6 +39,29 @@
 \definecolor{maingray}{HTML}{B9B9B9}
 
 %----------------------------------------------------------------------------------------
+%	 From AwesomeCV
+%----------------------------------------------------------------------------------------
+% Text colors
+\definecolor{darktext}{HTML}{414141}
+\definecolor{awesome-red}{HTML}{DC3522}
+\definecolor{darkgray}{HTML}{333333}
+\definecolor{lightgray}{HTML}{999999}
+
+\colorlet{text}{darkgray}
+\colorlet{graytext}{gray}
+\colorlet{lighttext}{lightgray}
+\colorlet{awesome}{mainblue}
+
+
+% For elements of entry
+\newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bfseries\color{darktext} #1}}
+\newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\scshape\color{graytext} #1}}
+\newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\slshape\color{graytext} #1}}
+\newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\slshape\color{awesome} #1}}
+\newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\upshape\color{text} #1}}
+
+
+%----------------------------------------------------------------------------------------
 %	 MISC CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
@@ -51,6 +75,7 @@
 \def\headrule{}
 \def\footrule{{\color[gray]{0.4}\hrule\@height\headrulewidth\@width\headwidth \vskip 3pt}}
 \setlength{\parindent}{0pt} % Disable paragraph indentation
+
 
 %----------------------------------------------------------------------------------------
 %	 SIDEBAR DEFINITIONS
@@ -237,7 +262,7 @@
 %----------------------------------------------------------------------------------------
 
 \setlength{\tabcolsep}{0pt}
-
+%\renewcommand{\arraystretch}{.5}
 % New environment for the long list
 \newenvironment{twenty}{%
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
@@ -245,15 +270,18 @@
 	\end{tabular*}
 }
 
+
+
 \newcommand{\twentyitem}[5]{%
-\begin{table}[]
-	\begin{tabular}{ll}
-		#2        & #4        \\
-		#3        & #1        \\
-		\multicolumn{2}{l}{#5}
-	\end{tabular}
-\end{table}
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{Xr}
+		\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
+		\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} &\entrydatestyle{#1} \\
+		\multicolumn{2}{l}{\descriptionstyle{#5}}\\	
+	\end{tabularx}\\
 }
+
 
 %----------------------------------------------------------------------------------------
 %	 SMALL LIST ENVIRONMENT
