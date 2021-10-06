@@ -1,4 +1,4 @@
-\ProvidesClass{twentysecondcvMod}[2018/11/24 CV class]
+\ProvidesClass{twentysecondcv}[2018/11/24 CV class]
 \LoadClass{article}
 \NeedsTeXFormat{LaTeX2e}
 

@@ -18,7 +18,7 @@
 #' ([@spagnuolocarmine](https://github.com/spagnuolocarmine))
 #'
 #' @export
-twentyseconds <- function(...) {
+twentysecondsMod <- function(...) {
   template <- system.file("rmarkdown", "templates", "twentysecondsMod",
                           "resources", "twentysecondstemplateMod.tex",
                           package = "vitae"
