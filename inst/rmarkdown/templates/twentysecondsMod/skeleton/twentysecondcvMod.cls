@@ -19,7 +19,7 @@
 \RequirePackage{ragged2e}
 \RequirePackage{etoolbox}
 \RequirePackage{ifmtarg}
-\RequirePackage{ifthen}
+%\RequirePackage{ifthen}
 \RequirePackage{pgffor}
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
@@ -33,32 +33,32 @@
 %----------------------------------------------------------------------------------------
 
 \definecolor{white}{RGB}{255,255,255}
-\definecolor{gray}{HTML}{4D4D4D}
+\definecolor{gray}{HTML}{2e2e2e}
 \definecolor{sidecolor}{HTML}{E7E7E7}
 \definecolor{mainblue}{HTML}{0E5484}
-\definecolor{maingray}{HTML}{B9B9B9}
+\definecolor{maingray}{HTML}{858585}
 
 %----------------------------------------------------------------------------------------
 %	 From AwesomeCV
 %----------------------------------------------------------------------------------------
 % Text colors
-\definecolor{darktext}{HTML}{414141}
+%\definecolor{darktext}{HTML}{414141}
 \definecolor{awesome-red}{HTML}{DC3522}
-\definecolor{darkgray}{HTML}{333333}
-\definecolor{lightgray}{HTML}{999999}
+%\definecolor{darkgray}{HTML}{333333}
+%\definecolor{lightgray}{HTML}{999999}
 
-\colorlet{text}{darkgray}
-\colorlet{graytext}{gray}
-\colorlet{lighttext}{lightgray}
+\colorlet{text}{gray}
+\colorlet{graytext}{maingray}
+\colorlet{lighttext}{sidecolor}
 \colorlet{awesome}{mainblue}
-
+\colorlet{darktext}{gray}
 
 % For elements of entry
 \newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bfseries\color{darktext} #1}}
 \newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\scshape\color{graytext} #1}}
 \newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\slshape\color{graytext} #1}}
 \newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\slshape\color{awesome} #1}}
-\newcommand*{\descriptionstyle}[1]{{\fontsize{7pt}{1em}\upshape\color{text} #1}}
+\newcommand*{\descriptionstyle}[1]{{\fontsize{7pt}{8pt}\upshape\color{text} #1}}
 
 % Needed to use \ifxetex-\else-\fi statement
 \RequirePackage{ifxetex}
@@ -117,23 +117,24 @@
 \newcommand{\cvaddress}[1]{\renewcommand{\cvaddress}{#1}}
 \newcommand{\cvsite}[1]{\renewcommand{\cvsite}{#1}}
 \newcommand{\aboutme}[1]{\renewcommand{\aboutme}{#1}}
+\newcommand{\languages}[1]{\renewcommand{\languages}{#1}}
 \newcommand{\profilepic}[1]{\renewcommand{\profilepic}{#1}}
 \newcommand{\cvname}[1]{\renewcommand{\cvname}{#1}}
 \newcommand{\cvjobtitle}[1]{\renewcommand{\cvjobtitle}{#1}}
 
 % Command for printing the contact information icons
 \newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt, 
-fill=mainblue,mainblue,text=white] (char) {#1};}}
+		fill=mainblue,mainblue,text=white] (char) {#1};}}
 
 % Command for printing skill progress bars
 \newcommand\skills[1]{
 	\renewcommand{\skills}{
 		\begin{tikzpicture}
-		\foreach [count=\i] \x/\y in {#1}{
-			\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
-			\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
-			\node [above right] at (0,\i+0.4) {\x};
-		}
+			\foreach [count=\i] \x/\y in {#1}{
+				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
+				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
+				\node [above right] at (0,\i+0.4) {\x};
+			}
 		\end{tikzpicture}
 	}
 }
@@ -156,8 +157,8 @@ fill=mainblue,mainblue,text=white] (char) {#1};}}
 \newcommand{\makeprofile}{
 	\thispagestyle{empty}
 	\begin{tikzpicture}[remember picture,overlay]
-	\node [rectangle, fill=sidecolor, anchor=north, minimum width=9cm, minimum height=\paperheight+1cm] (box) at 
-	(-5cm,0.5cm){};
+		\node [rectangle, fill=sidecolor, anchor=north, minimum width=9cm, minimum height=\paperheight+1cm] (box) at 
+		(-5cm,0.5cm){};
 	\end{tikzpicture}
 	
 	%------------------------------------------------
@@ -169,9 +170,9 @@ fill=mainblue,mainblue,text=white] (char) {#1};}}
 		\ifthenelse{\equal{\profilepic}{}}{\vspace*{0.5cm}}{
 			\begin{center}
 				\begin{tikzpicture}[x=\imagescale,y=-\imagescale]
-				\clip (600/2, 567/2) circle (567/2);
-				\node[anchor=north west, inner sep=0pt, outer sep=0pt] at (0,0) 
-				{\includegraphics[width=\imagewidth]{\profilepic}};
+					\clip (600/2, 567/2) circle (567/2);
+					\node[anchor=north west, inner sep=0pt, outer sep=0pt] at (0,0) 
+					{\includegraphics[width=\imagewidth]{\profilepic}};
 				\end{tikzpicture}
 			\end{center}
 		}
@@ -207,6 +208,22 @@ fill=mainblue,mainblue,text=white] (char) {#1};}}
 				\aboutme
 			\end{flushleft}
 		}
+		
+		\ifthenelse{\equal{\languages}{}}{}{
+			\profilesection{Languages}
+			\begin{flushleft}
+				\languages
+			\end{flushleft}
+		}
+		
+		%		\ifx{\equal{\languages}{}}
+		%			EMPTY\\
+		%		\else
+		%			\profilesection{Languages}
+		%			\begin{flushleft}
+			%				\languages
+			%			\end{flushleft}
+		%		\fi
 		
 		%------------------------------------------------
 		
@@ -285,7 +302,7 @@ fill=mainblue,mainblue,text=white] (char) {#1};}}
 
 \newcommand{\twentyitem}[5]{%
 	\setlength\tabcolsep{0pt}%
-	\setlength{\extrarowheight}{0pt}%
+	\setlength{\extrarowheight}{-4pt}%
 	\ifempty{#5}{
 		\begin{tabularx}{\textwidth}{Xr}
 			\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
@@ -308,23 +325,21 @@ fill=mainblue,mainblue,text=white] (char) {#1};}}
 %	 SMALL LIST ENVIRONMENT
 %----------------------------------------------------------------------------------------
 
-\setlength{\tabcolsep}{0pt}
 
 % New environment for the small list
 \newenvironment{twentyshort}{%
-	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
-	}{%
-	\end{tabular*}
+	\setlength\tabcolsep{3pt}%
+	\tabularx{\textwidth}{lX}
+}{%
+	\endtabularx
 }
 
 \newcommand{\twentyitemshort}[2]{%
-	#1&\parbox[t]{0.83\textwidth}{%
-		\textbf{#2}%
-	}\\
+	\noindent\parbox[t]{2.6cm}{\entrydatestyle{#1}} & \noindent\parbox[t]{\hsize}{\entrytitlestyle{#2}} \\
 }
 
 %----------------------------------------------------------------------------------------
 %	 MARGINS AND LINKS
 %----------------------------------------------------------------------------------------
 
-\RequirePackage{hyperref}
+\RequirePackage[hidelinks]{hyperref}

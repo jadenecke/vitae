@@ -31,10 +31,15 @@ twentysecondsMod <- function(...) {
 
 twentyseconds_cv_entries <- new_entry_formats(
   brief = function(what, when, with){
+    with <- lapply(with, function(x){
+      if(length(x) == 0) return("")
+      return(paste(". ", x, collapse = "\n"))
+    })
+
     paste(
       c(
         "\\nopagebreak\\begin{twentyshort}",
-        glue_alt("\t\\twentyitemshort{<<when>>}{<<what>>. <<with>>}"),
+        glue_alt("\t\\twentyitemshort{<<when>>}{<<what>><<with>>}"),
         "\\end{twentyshort}"
       ),
       collapse = "\n"
@@ -42,7 +47,7 @@ twentyseconds_cv_entries <- new_entry_formats(
   },
   detailed = function(what, when, with, where, why){
     why <- lapply(why, function(x) {
-      if(length(x) == 0) return("\\empty")
+      if(length(x) == 0) return("")
       paste(c(
         "\\begin{minipage}{0.9\\textwidth}%",
         "\\begin{itemize}%",
@@ -51,7 +56,7 @@ twentyseconds_cv_entries <- new_entry_formats(
         "\\end{minipage}"
       ), collapse = "\n")
     })
-    where <- ifelse(where == "", "\\empty", paste0(where, ""))
+    where <- ifelse(where == "", "", paste0(where, ""))
 
     paste(c(
       "\\nopagebreak\\begin{twenty}",

@@ -411,7 +411,7 @@
 \def\vhrulefill#1{\leavevmode\leaders\hrule\@height#1\hfill \kern\z@}
 
 % Use to execute conditional statements by checking empty string
-\newcommand*{\ifempty}[3]{\ifthenelse{\isempty{#1}}{#2}{#3}}
+\newcommand*{\ifempty}[3]{\ifthenelse{\isempty{#1}}{#2}{\setstretch{0.7}#3}}
 
 
 %-------------------------------------------------------------------------------
