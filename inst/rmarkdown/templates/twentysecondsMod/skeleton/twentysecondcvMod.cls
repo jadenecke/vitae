@@ -24,9 +24,12 @@
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
 \RequirePackage{tabularx}
+\RequirePackage{enumitem}
 \RequirePackage[left=7.6cm,top=0.1cm,right=1cm,bottom=0.1cm,nohead,nofoot]{geometry}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
+
+\RequirePackage[export]{adjustbox}
 
 %----------------------------------------------------------------------------------------
 %	 COLOURS
@@ -54,11 +57,12 @@
 \colorlet{darktext}{gray}
 
 % For elements of entry
-\newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bfseries\color{darktext} #1}}
+\newcommand*{\entrytitlestyle}[1]{{\fontsize{5pt}{5pt}\bfseries\color{darktext} #1}}
 \newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\scshape\color{graytext} #1}}
 \newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\slshape\color{graytext} #1}}
 \newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\slshape\color{awesome} #1}}
 \newcommand*{\descriptionstyle}[1]{{\fontsize{7pt}{8pt}\upshape\color{text} #1}}
+\newcommand*{\descriptionstylegray}[1]{{\fontsize{7pt}{8pt}\upshape\color{graytext} #1}}
 
 % Needed to use \ifxetex-\else-\fi statement
 \RequirePackage{ifxetex}
@@ -118,6 +122,7 @@
 \newcommand{\cvsite}[1]{\renewcommand{\cvsite}{#1}}
 \newcommand{\aboutme}[1]{\renewcommand{\aboutme}{#1}}
 \newcommand{\languages}[1]{\renewcommand{\languages}{#1}}
+\newcommand{\skills}[1]{\renewcommand{\skills}{#1}}
 \newcommand{\profilepic}[1]{\renewcommand{\profilepic}{#1}}
 \newcommand{\cvname}[1]{\renewcommand{\cvname}{#1}}
 \newcommand{\cvjobtitle}[1]{\renewcommand{\cvjobtitle}{#1}}
@@ -127,28 +132,28 @@
 		fill=mainblue,mainblue,text=white] (char) {#1};}}
 
 % Command for printing skill progress bars
-\newcommand\skills[1]{
-	\renewcommand{\skills}{
-		\begin{tikzpicture}
-			\foreach [count=\i] \x/\y in {#1}{
-				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
-				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
-				\node [above right] at (0,\i+0.4) {\x};
-			}
-		\end{tikzpicture}
-	}
-}
-
-% Command for printing skills text
-\newcommand\skillstext[1]{
-	\renewcommand{\skillstext}{
-		\begin{flushleft}
-			\foreach [count=\i] \x/\y in {#1}{
-				\x$ \star $\y
-			}
-		\end{flushleft}
-	}
-}
+%\newcommand\skills[1]{
+%	\renewcommand{\skills}{
+%		\begin{tikzpicture}
+%		\foreach [count=\i] \x/\y in {#1}{
+%			\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
+%			\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
+%			\node [above right] at (0,\i+0.4) {\x};
+%		}
+%		\end{tikzpicture}
+%	}
+%}
+%
+%% Command for printing skills text
+%\newcommand\skillstext[1]{
+%	\renewcommand{\skillstext}{
+%		\begin{flushleft}
+%			\foreach [count=\i] \x/\y in {#1}{
+%				\x$ \star $\y
+%			}
+%		\end{flushleft}
+%	}
+%}
 
 %----------------------------------------------------------------------------------------
 %	 SIDEBAR LAYOUT
@@ -157,8 +162,8 @@
 \newcommand{\makeprofile}{
 	\thispagestyle{empty}
 	\begin{tikzpicture}[remember picture,overlay]
-		\node [rectangle, fill=sidecolor, anchor=north, minimum width=9cm, minimum height=\paperheight+1cm] (box) at 
-		(-5cm,0.5cm){};
+	\node [rectangle, fill=sidecolor, anchor=north, minimum width=9cm, minimum height=\paperheight+1cm] (box) at 
+	(-5cm,0.5cm){};
 	\end{tikzpicture}
 	
 	%------------------------------------------------
@@ -170,9 +175,9 @@
 		\ifthenelse{\equal{\profilepic}{}}{\vspace*{0.5cm}}{
 			\begin{center}
 				\begin{tikzpicture}[x=\imagescale,y=-\imagescale]
-					\clip (600/2, 567/2) circle (567/2);
-					\node[anchor=north west, inner sep=0pt, outer sep=0pt] at (0,0) 
-					{\includegraphics[width=\imagewidth]{\profilepic}};
+				\clip (600/2, 567/2) circle (567/2);
+				\node[anchor=north west, inner sep=0pt, outer sep=0pt] at (0,0) 
+				{\includegraphics[width=\imagewidth]{\profilepic}};
 				\end{tikzpicture}
 			\end{center}
 		}
@@ -186,15 +191,15 @@
 		{\Large\color{black!80}\cvjobtitle}
 		
 		\ifthenelse{\equal{\cvdate}{}}{}{\cvdate}
-		\vspace*{0.4cm}
+		\vspace*{0.2cm}
 		%------------------------------------------------
 		
-		\renewcommand{\arraystretch}{1.6}
+		\renewcommand{\arraystretch}{1.4}
 		\begin{tabular}{p{0.5cm} @{\hskip 0.5cm}p{5cm}}
 			\ifthenelse{\equal{\cvaddress}{}}{}{\Large\faicon{map-marker} & \cvaddress\\}
 			\ifthenelse{\equal{\cvnumberphone}{}}{}{\Large\faicon{phone} & \cvnumberphone\\}
+			\ifthenelse{\equal{\cvmail}{}}{}{\Large\faicon{envelope} & \cvmail\\}			
 			\ifthenelse{\equal{\cvsite}{}}{}{\Large\faicon{home} & \cvsite\\}
-			\ifthenelse{\equal{\cvmail}{}}{}{\Large\faicon{envelope} & \cvmail\\}
 			\ifthenelse{\equal{\cvtwitter}{}}{}{\Large\faicon{twitter} & \cvtwitter\\}
 			\ifthenelse{\equal{\cvgithub}{}}{}{\Large\faicon{github} & \cvgithub\\}
 			\ifthenelse{\equal{\cvlinkedin}{}}{}{\Large\faicon{linkedin} & \cvlinkedin}
@@ -216,13 +221,20 @@
 			\end{flushleft}
 		}
 		
+		\ifthenelse{\equal{\skills}{}}{}{
+			\profilesection{Skills}
+			\begin{flushleft}
+				\skills
+			\end{flushleft}
+		}
+		
 		%		\ifx{\equal{\languages}{}}
 		%			EMPTY\\
 		%		\else
 		%			\profilesection{Languages}
 		%			\begin{flushleft}
-			%				\languages
-			%			\end{flushleft}
+		%				\languages
+		%			\end{flushleft}
 		%		\fi
 		
 		%------------------------------------------------
@@ -246,7 +258,8 @@
 
 % Command to create the rounded boxes around the first three letters of section titles
 \newcommand*\round[2]{%
-	\tikz[baseline=(char.base)]\node[anchor=north west, draw,rectangle, rounded corners, inner sep=1.6pt, minimum 
+	\tikz[baseline=(char.base)]\node[anchor=north west, draw,rectangle,% rounded corners,
+	inner sep=1.6pt, minimum 
 	size=5.5mm, text height=3.6mm, fill=#2,#2,text=white](char){#1};%
 }
 
@@ -255,17 +268,17 @@
 	{%
 		\round{#1}{
 			\ifcase\value{colorCounter}%
-			maingray\or%
 			mainblue\or%
-			maingray\or%
 			mainblue\or%
-			maingray\or%
 			mainblue\or%
-			maingray\or%
 			mainblue\or%
-			maingray\or%
+			mainblue\or%
+			mainblue\or%
+			mainblue\or%
+			mainblue\or%
+			mainblue\or%
 			mainblue\else%
-			maingray\fi%
+			mainblue\fi%
 		}%
 	}%
 	\stepcounter{colorCounter}%
@@ -298,26 +311,50 @@
 	\end{tabular*}
 }
 
-
-
+%\renewcommand{\tabularxcolumn}[1]{m{#1}}
 \newcommand{\twentyitem}[5]{%
-	\setlength\tabcolsep{0pt}%
-	\setlength{\extrarowheight}{-4pt}%
 	\ifempty{#5}{
-		\begin{tabularx}{\textwidth}{Xr}
-			\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
-			\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} &\entrydatestyle{#1} \\
-		\end{tabularx}\\
-		\mbox{}\\
+		\ifempty{#2#4}{
+			\setlength\tabcolsep{0pt}%
+			%\setlength{\extrarowheight}{-4pt}%
+			{\renewcommand{\arraystretch}{0.6}
+				\begin{tabularx}{\textwidth}{Xr}
+					\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} & \entrydatestyle{#1}\vspace{2mm}\\
+				\end{tabularx}
+			}\\
+		}{
+			\setlength\tabcolsep{0pt}%
+			%\setlength{\extrarowheight}{-4pt}%
+			{\renewcommand{\arraystretch}{0.6}
+				\begin{tabularx}{\textwidth}{Xr}
+					\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
+					\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} &\entrydatestyle{#1}\vspace{2mm}\\
+				\end{tabularx}
+			}\\
+		}
 	}{
-		\begin{tabularx}{\textwidth}{Xr}
-			\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
-			\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} &\entrydatestyle{#1} \\
-			\multicolumn{2}{l}{\descriptionstyle{#5}}
-		\end{tabularx}\\
-		\mbox{}\\
+		\ifempty{#2#4}{
+			\setlength\tabcolsep{3pt}%
+			%\setlength{\extrarowheight}{2pt}%
+			{\renewcommand{\arraystretch}{0.6}
+				\begin{tabularx}{\textwidth}{Xr}
+					\adjustbox{valign=t}{\noindent\parbox[c]{\hsize}{\entrytitlestyle{#3}}} & 
+					\adjustbox{valign=t}{\entrydatestyle{#1}}\vspace{0.5mm}\\
+					\multicolumn{2}{l}{\descriptionstylegray{#5}}\vspace{2mm}\\
+				\end{tabularx}
+			}\\
+		}{
+			\setlength\tabcolsep{0pt}%
+			%\setlength{\extrarowheight}{-4pt}%
+			{\renewcommand{\arraystretch}{0.6}
+				\begin{tabularx}{\textwidth}{Xr}
+					\noindent\parbox[c]{\hsize}{\entrytitlestyle{#2}} & \entrylocationstyle{#4} \\
+					\noindent\parbox[c]{\hsize}{\entrypositionstyle{#3}} & \entrydatestyle{#1} \\
+					\multicolumn{2}{l}{\descriptionstyle{#5}}\vspace{2mm}\\
+				\end{tabularx}
+			}\\
+		}
 	}
-	
 }
 
 
